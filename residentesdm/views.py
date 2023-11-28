@@ -2,5 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 # Create your views here.
+
 def index(request):
-    return HttpResponse("Hola, mundo. Estás en el índice de residentesdm.")
+    return render(request, 'index.html')
+
+def evaluacion(request):
+    return render(request, 'evaluacion.html')
+    

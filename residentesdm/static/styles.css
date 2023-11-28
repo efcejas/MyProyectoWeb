@@ -1,0 +1,44 @@
+
+/* estilos de la cabecera */
+header {
+    background-color: #3D5DAA;
+    padding: 12px;
+}
+
+header h1 {
+    color: #fff;
+    margin: 0;
+    font-size: 2.5vw;
+    /* Ajusta este valor según tus necesidades */
+}
+
+.logodm img {
+    width: 15vw;
+    /* Ajusta este valor según tus necesidades */
+    max-width: 200px;
+    min-width: 90px;
+}
+
+p {
+    font-family: mr-eaves-sans, sans-serif;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 3.5vw;
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    .logodm img {
+        width: 80px;
+    }
+}
+
+@media (min-width: 769px) {
+    header h1 {
+        text-align: left;
+        margin-left: 10px;
+    }
+}
+/* fin de los estilos de la cebecera */
