@@ -1,28 +1,31 @@
-{% extends "index.html" %}
-
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Evaluación Residentes{% endblock %}
 {% block content %}
 <form>
-    <div class="form-group">
-        <label for="grupo">Grupo:</label>
-        <select class="form-control" id="grupo">
-            <option>Todos</option>
-            <option>R1</option>
-            <option>R2</option>
-            <option>R3</option>
-            <option>R4</option>
-        </select>
+    <div class="dropup">
+        <button class="btn btn-secondary dropdown-toggle mt-3" type="button" id="grupo" data-bs-toggle="dropdown" aria-expanded="false">
+            Seleccione
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="grupo">
+            <li><a class="dropdown-item" href="#">Todos</a></li>
+            <li><a class="dropdown-item" href="#">R1</a></li>
+            <li><a class="dropdown-item" href="#">R2</a></li>
+            <li><a class="dropdown-item" href="#">R3</a></li>
+            <li><a class="dropdown-item" href="#">R4</a></li>
+        </ul>
     </div>
     <div class="form-group mt-3">
-        <label for="positivos">Aspectos Positivos:</label>
+        <label for="positivos"><p class="mb-0">Aspectos Positivos:</p></label>
         <textarea class="form-control" id="positivos" rows="3"></textarea>
     </div>
     <div class="form-group mt-3">
-        <label for="negativos">Aspectos Negativos:</label>
+        <label for="negativos"><p class="mb-0">Aspectos Negativos:</p></label>
         <textarea class="form-control" id="negativos" rows="3"></textarea>
     </div>
     <div class="form-group mt-3" style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex; align-items: center;">
-            <label for="nota" style="margin-right: 10px;">Nota:</label>
+            <label for="nota" style="margin-right: 10px;"><p class="mb-0">Nota:</p></label>
             <input type="number" class="form-control" id="nota" min="0" max="10" style="width: 65px;" required>
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>

@@ -1,0 +1,23 @@
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Agregar sede{% endblock %}
+{% block content %}
+
+<div class="elformulario">
+    <h4 class="titulosede mt-3">Agregar sede</h4>
+    <p>Por favor, ingrese los datos de la sede que desea incluir:</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div>
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button class="btn btn-primary mt-3" type="submit">Agregar</button>
+    </form>
+</div>
+{% endblock %}
+```

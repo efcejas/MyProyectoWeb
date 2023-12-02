@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Residentes DM</title>
+        <title>{% block title%}{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
         <link rel="stylesheet" href="https://use.typekit.net/ces4zfb.css">
     
@@ -34,13 +34,10 @@
     <nav>
         <ul class="nav nav-tabs justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:index' %}">Inicio</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:inicio' %}">Inicio</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Residentes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Jefes de Residentes</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Tutores</a>
@@ -54,7 +51,6 @@
         </ul>
     </nav>
     <main class="container-fluid">
-        <p>Esta es la página principal</p>
         {% block content %}
         {% endblock %}
     </main>
