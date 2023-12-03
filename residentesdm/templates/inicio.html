@@ -2,9 +2,9 @@
 {% load static %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
-<main class="container-fluid">
+<main >
     <div class="card mt-3">
-        <div class="card-body">
+        <div class="card-body text-justify">
             <h2 class="card-title text-center">¡Bienvenido!</h2>
             <p class="card-text">Esta es la página de la residencia médica en diagnóstico por imágenes de Diagnóstico Médico. Aquí encontrarás información sobre nuestra institución, así como recursos útiles para nuestros residentes y para el público interesado.</p>
         </div>
@@ -16,4 +16,38 @@
         </div>
     </div> -->
 </main>
+
+<div class="accordion mt-3" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Nuestras sedes
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample" style="background-color: #f7f7f7;">
+            <div class="accordion-body">
+                <p class="card-text">Nuestro programa ofrece la oportunidad de rotar por distintos servicios en
+                    varias sedes,
+                    donde nuestros residentes pueden adquirir experiencia y conocimientos prácticos. Esta es una
+                    forma de
+                    enriquecer su formación y prepararse para el futuro profesional.</p>
+                <div class="row">
+                    {% for sede in sedes %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ sede.nombre }}</h5>
+                                <p class="card-text m-0">Referente: Dr/a. {{ sede.referente }}</p>
+                                <p class="card-text m-0">Dirección: {{ sede.direccion }}</p>
+                                <p class="card-text">Tel: {{ sede.telefono }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -15,6 +15,13 @@
             <li><a class="dropdown-item" href="#">R4</a></li>
         </ul>
     </div>
+    <!-- Desplegable para seleccionar el nombre del residente -->
+    <div class="form-group mt-3">
+        <label><p class="mb-0">Nombre del Residente:</p></label>
+        <select class="form-select">
+            <!-- Aquí se deben agregar las opciones con los nombres de los residentes -->
+        </select>
+    </div>
     <div class="form-group mt-3">
         <label for="positivos"><p class="mb-0">Aspectos Positivos:</p></label>
         <textarea class="form-control" id="positivos" rows="3"></textarea>
@@ -31,5 +38,26 @@
         <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('.dropdown-item').click(function(){
+        var selectedGroup = $(this).text();
+        $.ajax({
+            url: '/get_residentes_por_grupo/',  // Reemplaza esto con la URL de tu endpoint
+            data: {
+              'grupo': selectedGroup
+            },
+            success: function(data) {
+                var select = $('.form-select');
+                select.empty();
+                $.each(data, function(index, value) {
+                    select.append('<option value="' + value.id + '">' + value.nombre + '</option>');
+                });
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
 

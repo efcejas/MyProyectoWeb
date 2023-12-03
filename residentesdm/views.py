@@ -7,15 +7,28 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .models import Sede
+from .models import Residente
 from .forms import SedeForm
 
 # Create your views here.
 
+# views.py
 def inicio(request):
-    return render(request, 'inicio.html')
+    sedes = Sede.objects.all()
+    return render(request, 'inicio.html', {'sedes': sedes})
 
 def evaluacion(request):
     return render(request, 'evaluacion.html')
+
+def get_residentes_por_grupo(request):
+    grupo = request.GET.get('grupo')
+    todos_residentes = Residente.objects.all()
+    if grupo == 'Todos':
+        residentes_filtrados = todos_residentes
+    else:
+        residentes_filtrados = [residente for residente in todos_residentes if residente.grupo() == grupo]
+    residentes_list = [{'id': residente.DNI, 'nombre': f"{residente.nombre.title()} {residente.apellido.title()}"} for residente in residentes_filtrados]
+    return JsonResponse(residentes_list, safe=False)
 
 def sedes(request):
     sedes = Sede.objects.all()
@@ -35,5 +48,6 @@ def agregarsede(request):
     else:
         form = SedeForm()
     return render(request, 'agregarsede.html', {'form': form})
+
 
 
