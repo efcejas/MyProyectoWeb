@@ -1,5 +1,5 @@
 from django import forms
-from .models import Sede
+from .models import Sede, Residente
 import re
 from django.core.exceptions import ValidationError
 
@@ -31,3 +31,25 @@ class SedeForm(forms.ModelForm):
         if commit:
             sede.save()
         return sede
+
+class ResidenteForm(forms.ModelForm):
+    class Meta:
+        model = Residente
+        fields = ['nombre', 'apellido', 'DNI', 'matricula', 'email', 'nacionalidad', 'fecha_ingreso']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'DNI': forms.TextInput(attrs={'class': 'form-control'}),
+            'matricula': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'nacionalidad': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
+
+    def clean_DNI(self):
+        DNI = self.cleaned_data.get('DNI')
+        if Residente.objects.filter(DNI__iexact=DNI).exists():
+            raise ValidationError('Ya existe un residente con ese DNI.')
+        return DNI
+        
+

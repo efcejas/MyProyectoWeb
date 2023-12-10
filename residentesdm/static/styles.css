@@ -21,6 +21,17 @@ header h1 {
     min-width: 90px;
 }
 
+main h2 {
+    color: #3D5DAA;
+    font-family: nimbus-sans, sans-serif;
+    font-weight: 700;
+    font-style: bold;
+}
+
+#sedejunin {
+  border-radius: 5%;
+}
+
 p {
     font-family: mr-eaves-sans, sans-serif;
 }
@@ -35,6 +46,7 @@ p {
     .logodm img {
         width: 80px;
     }
+    
 }
 
 @media (min-width: 769px) {

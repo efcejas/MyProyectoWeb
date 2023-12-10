@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
@@ -32,11 +32,13 @@ class Residente(models.Model):
     nacionalidad = models.CharField(max_length=200, default='Desconocida')
     fecha_ingreso = models.DateField()
     repetido = models.BooleanField(default=False)
+    grupo = models.CharField(max_length=10, blank=True)
 
-    def __str__(self):
-        return f"{self.apellido.title()}, {self.nombre.title()}, {self.grupo()}"
+    def save(self, *args, **kwargs):
+        self.grupo = self.calculate_grupo()
+        super().save(*args, **kwargs)
 
-    def grupo(self):
+    def calculate_grupo(self):
         hoy = timezone.now().date()
         diferencia = hoy.year - self.fecha_ingreso.year - ((hoy.month, hoy.day) < (self.fecha_ingreso.month, self.fecha_ingreso.day))
 
@@ -53,4 +55,8 @@ class Residente(models.Model):
             return 'R4'
         else:
             return 'Egresado'
+
+    def __str__(self):
+        return f"{self.apellido.title()}, {self.nombre.title()}, {self.DNI} - {self.grupo}"
+
 

@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
@@ -6,29 +5,20 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Sede
-from .models import Residente
-from .forms import SedeForm
+from .models import Sede, Residente
+from .forms import SedeForm, ResidenteForm
+from django.db.models.functions import ExtractYear
+
+
 
 # Create your views here.
 
 # views.py
 def inicio(request):
     sedes = Sede.objects.all()
-    return render(request, 'inicio.html', {'sedes': sedes})
-
-def evaluacion(request):
-    return render(request, 'evaluacion.html')
-
-def get_residentes_por_grupo(request):
-    grupo = request.GET.get('grupo')
-    todos_residentes = Residente.objects.all()
-    if grupo == 'Todos':
-        residentes_filtrados = todos_residentes
-    else:
-        residentes_filtrados = [residente for residente in todos_residentes if residente.grupo() == grupo]
-    residentes_list = [{'id': residente.DNI, 'nombre': f"{residente.nombre.title()} {residente.apellido.title()}"} for residente in residentes_filtrados]
-    return JsonResponse(residentes_list, safe=False)
+    todos_los_residentes = Residente.objects.all().order_by('grupo')
+    total_residentes = Residente.objects.count()
+    return render(request, 'inicio.html', {'sedes': sedes, 'todos_los_residentes': todos_los_residentes, 'total_residentes': total_residentes})
 
 def sedes(request):
     sedes = Sede.objects.all()
@@ -49,5 +39,18 @@ def agregarsede(request):
         form = SedeForm()
     return render(request, 'agregarsede.html', {'form': form})
 
+def agregar_residente(request):
+    if request.method == 'POST':
+        form = ResidenteForm(request.POST)  # Aquí estaba el error
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, 'Residente guardado con éxito.')
+            except IntegrityError:
+                messages.error(request, 'Ya existe un residente con ese DNI.')
+            return redirect(reverse('residentesdm:inicio'))
+    else:
+        form = ResidenteForm()  # Y aquí también
+    return render(request, 'agregar_residente.html', {'form': form})
 
 

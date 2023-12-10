@@ -1,0 +1,31 @@
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Residente{% endblock %}
+{% block content %}
+
+<div class="elformulario">
+
+    <h4 class="titulosede mt-3">Residente</h4>
+
+    <p>Por favor, ingrese los datos del residente que desea incluir:</p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+        {% for field in form %}
+
+        <div>
+
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+
+        </div>
+        {% endfor %}
+
+        <button class="btn btn-primary mt-3" type="submit">Agregar</button>
+    </form>
+
+{% endblock %}
