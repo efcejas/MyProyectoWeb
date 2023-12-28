@@ -1,9 +1,46 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
+# Acá van los modelos de mis usuarios
+
+class MedicoResidente(User):
+    DNI = models.CharField(max_length=10, unique=True, primary_key=True)
+    fecha_nacimiento = models.DateField()
+    matricula = models.CharField(max_length=6, unique=True)
+    nacionalidad = models.CharField(max_length=200)
+
+    def save(self, *args, **kwargs):
+        # Formatear el DNI antes de guardarlo
+        self.DNI = '{}.{}.{}'.format(self.DNI[:2], self.DNI[2:5], self.DNI[5:])
+        
+        # Formatear el nombre y apellido
+        self.first_name = self.first_name.capitalize()
+        self.last_name = self.last_name.capitalize()
+
+        super().save(*args, **kwargs)
+
 # Create your models here.
+
+""" Tengo que crear la base de datos para los residentes, docentes y donde se guardarán los preinformes con las correcciones. 
+
+from django.contrib.auth.models import User
+
+class Preinforme(models.Model):
+    residente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='preinformes')
+    contenido = models.TextField()
+    # otros campos necesarios...
+
+class Correccion(models.Model):
+    preinforme = models.ForeignKey(Preinforme, on_delete=models.CASCADE, related_name='correcciones')
+    docente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='correcciones')
+    contenido = models.TextField()
+
+    # otros campos necesarios..."""
+
+# Clases accesorias
 
 class Sede(models.Model):
     nombre = models.CharField(max_length=200, unique=True)
@@ -57,6 +94,4 @@ class Residente(models.Model):
             return 'Egresado'
 
     def __str__(self):
-        return f"{self.apellido.title()}, {self.nombre.title()}, {self.DNI} - {self.grupo}"
-
-
+        return f"{self.apellido.title()}, {self.nombre.title()}"

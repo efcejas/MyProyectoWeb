@@ -1,7 +1,17 @@
 from django import forms
-from .models import Sede, Residente
+from django.contrib.auth.forms import UserCreationForm
+from .models import Sede, Residente, MedicoResidente
 import re
 from django.core.exceptions import ValidationError
+
+# Acá van los formularios de mis usuarios
+
+class MedicoResidenteForm(UserCreationForm):
+    class Meta:
+        model = MedicoResidente
+        fields = ['username', 'password1', 'password2', 'DNI', 'fecha_nacimiento', 'matricula', 'nacionalidad', 'first_name', 'last_name']
+
+# Acá van los formularios de las sedes y demás
 
 class SedeForm(forms.ModelForm):
     class Meta:
@@ -50,6 +60,15 @@ class ResidenteForm(forms.ModelForm):
         DNI = self.cleaned_data.get('DNI')
         if Residente.objects.filter(DNI__iexact=DNI).exists():
             raise ValidationError('Ya existe un residente con ese DNI.')
+        # Agrega los puntos al DNI
+        DNI = '{}.{}.{}'.format(DNI[:2], DNI[2:5], DNI[5:])
         return DNI
+
+    def clean_matricula(self):
+        matricula = self.cleaned_data.get('matricula')
+        # Agrega los puntos a la matrícula
+        matricula = '{}.{}'.format(matricula[:3], matricula[3:])
+        return matricula
         
 
+    

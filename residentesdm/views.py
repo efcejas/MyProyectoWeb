@@ -5,20 +5,63 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Sede, Residente
-from .forms import SedeForm, ResidenteForm
+from .models import Sede, Residente, MedicoResidente
+from .forms import SedeForm, ResidenteForm, MedicoResidenteForm
 from django.db.models.functions import ExtractYear
 
+# acá van las vistas de mis usuarios
 
+def register(request):
+    if request.method == 'POST':
+        form = MedicoResidenteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('residentesdm:login')  # redirige al usuario a la página de inicio de sesión después del registro
+    else:
+        form = MedicoResidenteForm()
+    return render(request, 'registration/register.html', {'form': form})
 
 # Create your views here.
 
-# views.py
+""" 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views import View
+from .models import Preinforme, Correccion
+
+@method_decorator(login_required, name='dispatch')
+class PreinformeView(View):
+    def get(self, request):
+        # obtener los preinformes del usuario actual
+        preinformes = Preinforme.objects.filter(residente=request.user)
+        # renderizar a una plantilla con los preinformes
+
+    def post(self, request):
+        # crear un nuevo preinforme
+        preinforme = Preinforme.objects.create(residente=request.user, contenido=request.POST['contenido'])
+        # redirigir a la página de detalles del preinforme
+
+@method_decorator(login_required, name='dispatch')
+class CorreccionView(View):
+    def post(self, request, preinforme_id):
+        # asegurarse de que el usuario actual es un docente
+        if not request.user.is_staff:
+            return HttpResponseForbidden()
+        # crear una nueva corrección
+        correccion = Correccion.objects.create(docente=request.user, preinforme_id=preinforme_id, contenido=request.POST['contenido'])
+        # redirigir a la página de detalles del preinforme 
+"""
+
 def inicio(request):
     sedes = Sede.objects.all()
-    todos_los_residentes = Residente.objects.all().order_by('grupo')
+    todos_los_residentes = Residente.objects.all().order_by('grupo', 'nombre')
     total_residentes = Residente.objects.count()
     return render(request, 'inicio.html', {'sedes': sedes, 'todos_los_residentes': todos_los_residentes, 'total_residentes': total_residentes})
+
+def admin_panel(request):
+    todos_los_residentes = Residente.objects.all().order_by('grupo', 'nombre')
+    total_residentes = Residente.objects.count()
+    return render(request, 'admin_panel.html', {'todos_los_residentes': todos_los_residentes, 'total_residentes': total_residentes})
 
 def sedes(request):
     sedes = Sede.objects.all()
@@ -41,16 +84,36 @@ def agregarsede(request):
 
 def agregar_residente(request):
     if request.method == 'POST':
-        form = ResidenteForm(request.POST)  # Aquí estaba el error
+        form = ResidenteForm(request.POST)
         if form.is_valid():
             try:
-                form.save()
-                messages.success(request, 'Residente guardado con éxito.')
+                residente = form.save()
+                messages.success(request, f'Se agregó exitosamente al residente {residente.nombre.title()} {residente.apellido.title()}.')
             except IntegrityError:
                 messages.error(request, 'Ya existe un residente con ese DNI.')
-            return redirect(reverse('residentesdm:inicio'))
+            return redirect(reverse('residentesdm:admin_panel') + '?tab=residents')
     else:
-        form = ResidenteForm()  # Y aquí también
+        form = ResidenteForm()
     return render(request, 'agregar_residente.html', {'form': form})
 
+def residentes(request):
+    todos_los_residentes = Residente.objects.all().order_by('grupo')
+    total_residentes = Residente.objects.count()
 
+    # Divide los residentes por año
+    residentes_primer_año = [r for r in todos_los_residentes if r.calculate_grupo() == 'R1']
+    residentes_segundo_año = [r for r in todos_los_residentes if r.calculate_grupo() == 'R2']
+    residentes_tercer_año = [r for r in todos_los_residentes if r.calculate_grupo() == 'R3']
+    residentes_cuarto_año = [r for r in todos_los_residentes if r.calculate_grupo() == 'R4']
+
+    return render(request, 'residentes.html', {
+        'todos_los_residentes': todos_los_residentes,
+        'total_residentes': total_residentes,
+        'residentes_primer_año': residentes_primer_año,
+        'residentes_segundo_año': residentes_segundo_año,
+        'residentes_tercer_año': residentes_tercer_año,
+        'residentes_cuarto_año': residentes_cuarto_año,
+    })
+
+def supervision_residentes(request):
+    return render(request, 'supervision_residentes.html')

@@ -28,12 +28,50 @@ main h2 {
     font-style: bold;
 }
 
-#sedejunin {
-  border-radius: 5%;
+.fondo-personalizado {
+    background-image: url('/static/sedejunindos.jpg'); /* Cambia esto a la ruta de tu imagen */
+    background-size: cover; /* Esto hará que la imagen cubra todo el contenedor */
+    background-position: center; /* Esto centrará la imagen en el contenedor */
 }
 
 p {
     font-family: mr-eaves-sans, sans-serif;
+}
+
+.accordion-header .boton-personalizado {
+    text-decoration: none;
+    padding: 10px;
+    font-family: nimbus-sans, sans-serif;
+    font-weight: 600;
+    font-size: 1.5vw;
+    color: #ffffff;
+    background-color: #5989F7;
+    border-radius: 6px;
+}
+
+.card .card-body .card-title.titulo-personalizado {
+    font-family: nimbus-sans, sans-serif;
+    font-weight: 700;
+    color: #5989F7;
+}
+
+.accordion-button::after {
+    /* Override Bootstrap's default accordion icon */
+    background-image: none !important;
+    content: '▼'; /* Aquí puedes poner cualquier símbolo que quieras usar como flecha */
+    color: white; /* Aquí puedes poner el color que quieras para la flecha */
+}
+.accordion-button.collapsed::after {
+    content: '►'; /* Aquí puedes poner cualquier símbolo que quieras usar como flecha cuando el acordeón esté colapsado */
+}
+
+.card .card-body ul {
+    font-family: mr-eaves-sans, sans-serif;
+    font-size: medium;
+    padding: 5px;
+    color: #3D5DAA;
+    list-style: none;
+    padding-left: 25px;
 }
 
 @media (max-width: 768px) {
