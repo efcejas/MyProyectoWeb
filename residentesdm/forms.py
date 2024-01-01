@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Sede, Residente, MedicoResidente
+from .models import Sede, Residente, MedicoResidente, MedicoStaff
 import re
 from django.core.exceptions import ValidationError
 
@@ -9,7 +9,19 @@ from django.core.exceptions import ValidationError
 class MedicoResidenteForm(UserCreationForm):
     class Meta:
         model = MedicoResidente
-        fields = ['username', 'password1', 'password2', 'DNI', 'fecha_nacimiento', 'matricula', 'nacionalidad', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'DNI', 'fecha_nacimiento', 'matricula', 'email', 'nacionalidad', 'fecha_ingreso']
+
+    def __init__(self, *args, **kwargs):
+        super(MedicoResidenteForm, self).__init__(*args, **kwargs)
+        self.fields['matricula'].label = "Matrícula"
+        self.fields['fecha_nacimiento'].label = "Fecha de nacimiento"
+        self.fields['fecha_ingreso'].label = "Fecha de ingreso a la residencia"
+
+class MedicoStaffForm(UserCreationForm):
+    class Meta:
+        model = MedicoStaff
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'DNI', 'email']
+
 
 # Acá van los formularios de las sedes y demás
 

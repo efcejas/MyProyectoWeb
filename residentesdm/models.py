@@ -11,6 +11,22 @@ class MedicoResidente(User):
     fecha_nacimiento = models.DateField()
     matricula = models.CharField(max_length=6, unique=True)
     nacionalidad = models.CharField(max_length=200)
+    fecha_ingreso = models.DateField()
+
+    def save(self, *args, **kwargs):
+        # Formatear el DNI antes de guardarlo
+        self.DNI = '{}.{}.{}'.format(self.DNI[:2], self.DNI[2:5], self.DNI[5:])
+        
+        # Formatear el nombre y apellido
+        self.first_name = self.first_name.capitalize()
+        self.last_name = self.last_name.capitalize()
+
+        super().save(*args, **kwargs)
+
+class MedicoStaff(User):
+    DNI = models.CharField(max_length=10, unique=True, primary_key=True)
+    fecha_nacimiento = models.DateField()
+    
 
     def save(self, *args, **kwargs):
         # Formatear el DNI antes de guardarlo
