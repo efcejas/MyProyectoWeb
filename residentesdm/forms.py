@@ -20,9 +20,12 @@ class MedicoResidenteForm(UserCreationForm):
 class MedicoStaffForm(UserCreationForm):
     class Meta:
         model = MedicoStaff
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'DNI', 'email']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'DNI', 'matricula', 'email']
 
-
+    def __init__(self, *args, **kwargs):
+        super(MedicoStaffForm, self).__init__(*args, **kwargs)
+        self.fields['matricula'].label = "Matrícula"
+        
 # Acá van los formularios de las sedes y demás
 
 class SedeForm(forms.ModelForm):

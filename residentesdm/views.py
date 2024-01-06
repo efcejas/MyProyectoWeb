@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required # para que solo los usuarios logueados puedan acceder a las vistas
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -24,7 +25,7 @@ def register(request):
 # Create your views here.
 
 """ 
-from django.contrib.auth.decorators import login_required
+
 from django.utils.decorators import method_decorator
 from django.views import View
 from .models import Preinforme, Correccion
@@ -51,12 +52,12 @@ class CorreccionView(View):
         correccion = Correccion.objects.create(docente=request.user, preinforme_id=preinforme_id, contenido=request.POST['contenido'])
         # redirigir a la página de detalles del preinforme 
 """
-
+@login_required
 def inicio(request):
     sedes = Sede.objects.all()
     todos_los_residentes = Residente.objects.all().order_by('grupo', 'nombre')
     total_residentes = Residente.objects.count()
-    return render(request, 'inicio.html', {'sedes': sedes, 'todos_los_residentes': todos_los_residentes, 'total_residentes': total_residentes})
+    return render(request, 'inicio.html', {'sedes': sedes, 'todos_los_residentes': todos_los_residentes, 'total_residentes': total_residentes, 'user': request.user})
 
 def admin_panel(request):
     todos_los_residentes = Residente.objects.all().order_by('grupo', 'nombre')

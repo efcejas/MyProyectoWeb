@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor', # Django-ckeditor
     'residentesdm',
 ]
 
@@ -129,3 +130,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/' #agregué esto para que redirija a la página de inicio después de loguearse
+LOGOUT_REDIRECT_URL = '/accounts/login/' #agregué esto para que redirija a la página de inicio de sesión después de desloguearse
+

@@ -26,6 +26,7 @@ class MedicoResidente(User):
 class MedicoStaff(User):
     DNI = models.CharField(max_length=10, unique=True, primary_key=True)
     fecha_nacimiento = models.DateField()
+    matricula = models.CharField(max_length=6, unique=True)
     
 
     def save(self, *args, **kwargs):
@@ -38,11 +39,48 @@ class MedicoStaff(User):
 
         super().save(*args, **kwargs)
 
+class CuerpoAdmin(User):
+    DNI = models.CharField(max_length=10, unique=True, primary_key=True)
+    fecha_nacimiento = models.DateField()
+
+    def save(self, *args, **kwargs):
+        # Formatear el DNI antes de guardarlo
+        self.DNI = '{}.{}.{}'.format(self.DNI[:2], self.DNI[2:5], self.DNI[5:])
+        
+        # Formatear el nombre y apellido
+        self.first_name = self.first_name.capitalize()
+        self.last_name = self.last_name.capitalize()
+
+        super().save(*args, **kwargs)
+
+# Acá van los modelos de las actividades de los residentes
+
+class Preinforme(models.Model):
+    residente = models.ForeignKey(MedicoResidente, on_delete=models.CASCADE, related_name='preinformes')
+    contenido = models.TextField()
+    nombre_paciente = models.CharField(max_length=200)
+    apellido_paciente = models.CharField(max_length=200)
+    dni_paciente = models.CharField(max_length=10)
+    fecha_estudio = models.DateField()
+
+    def save(self, *args, **kwargs):
+        # Formatear el DNI del paciente antes de guardarlo
+        self.dni_paciente = '{}.{}.{}'.format(self.dni_paciente[:2], self.dni_paciente[2:5], self.dni_paciente[5:])
+
+        # Formatear el nombre y apellido del paciente
+        self.nombre_paciente = self.nombre_paciente.title()
+        self.apellido_paciente = self.apellido_paciente.title()
+
+        super().save(*args, **kwargs)
+
 # Create your models here.
 
-""" Tengo que crear la base de datos para los residentes, docentes y donde se guardarán los preinformes con las correcciones. 
+class Preinforme(models.Model):
+    residente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='preinformes')
+    contenido = models.TextField()
+    # otros campos necesarios...
 
-from django.contrib.auth.models import User
+""" Tengo que crear la base de datos para los residentes, docentes y donde se guardarán los preinformes con las correcciones. 
 
 class Preinforme(models.Model):
     residente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='preinformes')
