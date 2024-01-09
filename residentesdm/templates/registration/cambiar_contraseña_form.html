@@ -1,0 +1,29 @@
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Cambiar contraseña{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-start mt-3" style="height: 100vh;">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h2 class="text-center mb-4" style="font-size: larger; line-height: 1.2;">Cambiar Contraseña</h2>
+            <form method="post" class="form-group">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group mb-3">
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control"
+                        id="{{ field.id_for_label }}" placeholder="{{ field.field.widget.attrs.placeholder }}" {% if field.field.required %}required{% endif %}>
+                    {% if field.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary mb-3">
+            </form>
+
+            <p class="text-center"><a href="{% url 'residentesdm:password_reset' %}" class="btn btn-link">¿No recuerdas tu contraseña?</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

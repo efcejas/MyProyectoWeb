@@ -6,9 +6,12 @@ from django.contrib.auth.decorators import login_required # para que solo los us
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Sede, Residente, MedicoResidente
-from .forms import SedeForm, ResidenteForm, MedicoResidenteForm
+from django.views import View
+from .models import Sede, Residente, MedicoResidente, Preinforme
+from .forms import SedeForm, ResidenteForm, MedicoResidenteForm, CustomPasswordChangeForm, PreinformeForm
 from django.db.models.functions import ExtractYear
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView, LogoutView
+from django.utils.decorators import method_decorator
 
 # acá van las vistas de mis usuarios
 
@@ -22,25 +25,34 @@ def register(request):
         form = MedicoResidenteForm()
     return render(request, 'registration/register.html', {'form': form})
 
-# Create your views here.
-
-""" 
-
-from django.utils.decorators import method_decorator
-from django.views import View
-from .models import Preinforme, Correccion
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'registration/cambiar_contraseña_form.html'
+    success_url = '/password_change/done/'
 
 @method_decorator(login_required, name='dispatch')
 class PreinformeView(View):
     def get(self, request):
-        # obtener los preinformes del usuario actual
-        preinformes = Preinforme.objects.filter(residente=request.user)
-        # renderizar a una plantilla con los preinformes
+        form = PreinformeForm(initial={'residente': request.user.first_name + ' ' + request.user.last_name})
+        return render(request, 'preinformes.html', {'form': form})
 
     def post(self, request):
-        # crear un nuevo preinforme
-        preinforme = Preinforme.objects.create(residente=request.user, contenido=request.POST['contenido'])
-        # redirigir a la página de detalles del preinforme
+        form = PreinformeForm(request.POST)
+        if form.is_valid():
+            preinforme = form.save(commit=False)
+            preinforme.residente = request.user
+            preinforme.save()
+            # Redirige a la página de detalles del preinforme
+            
+# Create your views here.
+
+""" 
+
+
+
+
+
+
 
 @method_decorator(login_required, name='dispatch')
 class CorreccionView(View):

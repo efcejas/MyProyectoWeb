@@ -2,19 +2,29 @@
 {% load static %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
-<div class="d-flex flex-column flex-md-row justify-content-between m-3">
-    <div class="d-flex align-items-center">
-        {% if user.is_authenticated %}
-        <p class="mb-0">Bienvenido, <strong>{{ user.username }}</strong>!</p>
-        {% else %}
-        <p class="mb-0">No has iniciado sesión.</p>
-        {% endif %}
+<div class="d-flex flex-column flex-md-row justify-content-between m-0">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="me-2">
+            {% if user.is_authenticated %}
+            <p class="mb-0">Bienvenido, <strong>{{ user.first_name }}</strong>!</p>
+            {% else %}
+            <p class="mb-0">No has iniciado sesión.</p>
+            {% endif %}
+        </div>
+        <div>
+            <p class="mb-0"><a href="{% url 'residentesdm:password_change' %}">Cambiar contraseña</a></p>
+        </div>
     </div>
-    <nav>
+    <nav class="d-flex justify-content-between align-items-center">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:inicio' %}">Inicio</a>
             </li>
+            
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'residentesdm:preinforme' %}">Preinforme</a>
+                </li>
+            
             <!-- <li class="nav-item">
                 <a class="nav-link" href="#">Residentes</a>
             </li>
@@ -30,9 +40,8 @@
         </ul>
     </nav>
 </div>
-
 <main>
-    <div class="card mt-3">
+    <div class="card mt-2">
         <div class="card-body text-justify">
             <h2 class="text-center">¡Bienvenido!</h2>
             <p class="card-text">Esta es la página de la residencia médica en diagnóstico por imágenes de Diagnóstico

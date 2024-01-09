@@ -103,7 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -134,3 +133,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/' #agregué esto para que redirija a la página de inicio después de loguearse
 LOGOUT_REDIRECT_URL = '/accounts/login/' #agregué esto para que redirija a la página de inicio de sesión después de desloguearse
 
+# Configuración de correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'soporte.residentesdm@hotmail.com'
+EMAIL_HOST_PASSWORD = '!FQiN.du9LdjsWf'

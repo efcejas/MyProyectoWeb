@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
+from ckeditor.fields import RichTextField
 
 # Acá van los modelos de mis usuarios
 
@@ -18,8 +19,8 @@ class MedicoResidente(User):
         self.DNI = '{}.{}.{}'.format(self.DNI[:2], self.DNI[2:5], self.DNI[5:])
         
         # Formatear el nombre y apellido
-        self.first_name = self.first_name.capitalize()
-        self.last_name = self.last_name.capitalize()
+        self.first_name = self.first_name.title()
+        self.last_name = self.last_name.title()
 
         super().save(*args, **kwargs)
 
@@ -34,8 +35,8 @@ class MedicoStaff(User):
         self.DNI = '{}.{}.{}'.format(self.DNI[:2], self.DNI[2:5], self.DNI[5:])
         
         # Formatear el nombre y apellido
-        self.first_name = self.first_name.capitalize()
-        self.last_name = self.last_name.capitalize()
+        self.first_name = self.first_name.title()
+        self.last_name = self.last_name.title()
 
         super().save(*args, **kwargs)
 
@@ -48,8 +49,8 @@ class CuerpoAdmin(User):
         self.DNI = '{}.{}.{}'.format(self.DNI[:2], self.DNI[2:5], self.DNI[5:])
         
         # Formatear el nombre y apellido
-        self.first_name = self.first_name.capitalize()
-        self.last_name = self.last_name.capitalize()
+        self.first_name = self.first_name.title()
+        self.last_name = self.last_name.title()
 
         super().save(*args, **kwargs)
 
@@ -57,28 +58,23 @@ class CuerpoAdmin(User):
 
 class Preinforme(models.Model):
     residente = models.ForeignKey(MedicoResidente, on_delete=models.CASCADE, related_name='preinformes')
-    contenido = models.TextField()
-    nombre_paciente = models.CharField(max_length=200)
-    apellido_paciente = models.CharField(max_length=200)
-    dni_paciente = models.CharField(max_length=10)
+    nombre_paciente = models.CharField(max_length=255)
+    apellido_paciente = models.CharField(max_length=255)
+    dni_paciente = models.CharField(max_length=10, unique=True)
     fecha_estudio = models.DateField()
+    cuerpo_preinforme = models.TextField()
 
     def save(self, *args, **kwargs):
-        # Formatear el DNI del paciente antes de guardarlo
+        # Formatear el DNI antes de guardarlo
         self.dni_paciente = '{}.{}.{}'.format(self.dni_paciente[:2], self.dni_paciente[2:5], self.dni_paciente[5:])
-
-        # Formatear el nombre y apellido del paciente
+        
+        # Formatear el nombre y apellido
         self.nombre_paciente = self.nombre_paciente.title()
         self.apellido_paciente = self.apellido_paciente.title()
 
         super().save(*args, **kwargs)
 
 # Create your models here.
-
-class Preinforme(models.Model):
-    residente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='preinformes')
-    contenido = models.TextField()
-    # otros campos necesarios...
 
 """ Tengo que crear la base de datos para los residentes, docentes y donde se guardarán los preinformes con las correcciones. 
 

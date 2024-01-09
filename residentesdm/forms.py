@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from .models import Sede, Residente, MedicoResidente, MedicoStaff
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm
+from .models import Sede, Residente, MedicoResidente, MedicoStaff, CuerpoAdmin, Preinforme
 import re
 from django.core.exceptions import ValidationError
 
@@ -25,6 +25,22 @@ class MedicoStaffForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(MedicoStaffForm, self).__init__(*args, **kwargs)
         self.fields['matricula'].label = "Matrícula"
+
+class CuerpoAdminForm(UserCreationForm):
+    class Meta:
+        model = CuerpoAdmin
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'DNI', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super(CuerpoAdminForm, self).__init__(*args, **kwargs)
+
+
+# Acá van los formularios de autenticación
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña actual'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar nueva contraseña'}))
         
 # Acá van los formularios de las sedes y demás
 
@@ -85,5 +101,18 @@ class ResidenteForm(forms.ModelForm):
         matricula = '{}.{}'.format(matricula[:3], matricula[3:])
         return matricula
         
+# Acá van los formularios de los preinformes
 
-    
+class PreinformeForm(forms.ModelForm):
+    fecha_estudio = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
+
+    class Meta:
+        model = Preinforme
+        fields = ['residente', 'nombre_paciente', 'apellido_paciente', 'dni_paciente', 'fecha_estudio', 'cuerpo_preinforme']
+        widgets = {
+            'residente': forms.TextInput(attrs={'placeholder': 'Residente', 'class': 'form-control'}),
+            'nombre_paciente': forms.TextInput(attrs={'placeholder': 'Nombre del paciente', 'class': 'form-control'}),
+            'apellido_paciente': forms.TextInput(attrs={'placeholder': 'Apellido del paciente', 'class': 'form-control'}),
+            'dni_paciente': forms.NumberInput(attrs={'placeholder': 'DNI del paciente', 'class': 'form-control'}),
+            'cuerpo_preinforme': forms.Textarea(attrs={'placeholder': 'Escriba el preinforme aquí...', 'class': 'form-control'}),
+        }

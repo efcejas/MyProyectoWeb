@@ -1,0 +1,16 @@
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Cambiar contraseña{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-start mt-3" style="height: 100vh;">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h2 class="text-center mb-4" style="font-size: larger; line-height: 1.2;">Confirmación de cambio de contraseña</h2>
+            <p class="text-center">Tu contraseña ha sido cambiada exitosamente.</p>
+            <div class="text-center mt-4">
+                <a href="{% url 'residentesdm:login' %}" class="btn btn-primary">Iniciar sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

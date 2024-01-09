@@ -6,16 +6,16 @@
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             {% if form.errors %}
-            <p>Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
+                <p class="text-center">Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
             {% endif %}
 
             {% if next %}
-            {% if user.is_authenticated %}
-            <p>Su cuenta no tiene acceso a esta página. Para proceder,
-                inicie sesión con una cuenta que tenga acceso.</p>
-            {% else %}
-            <p>Por favor inicie sesión para ver esta página.</p>
-            {% endif %}
+                {% if user.is_authenticated %}
+                    <p class="text-center">Su cuenta no tiene acceso a esta página. Para proceder,
+                        inicie sesión con una cuenta que tenga acceso.</p>
+                {% else %}
+                    <p class="text-center">Por favor inicie sesión para ver esta página.</p>
+                {% endif %}
             {% endif %}
 
             <form method="post" action="{% url 'residentesdm:login' %}" class="form-group">

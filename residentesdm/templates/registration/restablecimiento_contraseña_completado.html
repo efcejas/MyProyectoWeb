@@ -1,0 +1,17 @@
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Restablecimiento de contraseña{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-start mt-3" style="height: 100vh;">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h2 class="text-center mb-4" style="font-size: larger; line-height: 1.2;">Restablecimiento de contraseña completado</h2>
+      <p class="text-center">Tu contraseña ha sido restablecida con éxito.</p>
+      <p class="text-center">Ahora puedes ingresar con tu nueva clave.</p>
+      <div class="d-flex justify-content-center">
+        <a href="{% url 'residentesdm:login' %}" class="btn btn-primary mt-2">Iniciar sesión</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
