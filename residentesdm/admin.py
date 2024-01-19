@@ -1,12 +1,20 @@
+# Importaciones de Django
 from django.contrib import admin
-from .models import Sede, Residente, MedicoResidente, MedicoStaff, CuerpoAdmin, Preinforme
+from django.contrib.auth.admin import UserAdmin
 
-admin.site.register(Sede,)
-admin.site.register(Residente,)
-admin.site.register(MedicoResidente,)
-admin.site.register(MedicoStaff,)
-admin.site.register(CuerpoAdmin,)
-admin.site.register(Preinforme,)
+# Importaciones de aplicaciones locales
+from .models import MyUsuario
+
+# Configuración de administrador para MyUsuario
+class MyUsuarioAdmin(UserAdmin):
+    list_display = ('username', 'email', 'fecha_nacimiento', 'first_name', 'last_name', 'is_staff')
+    fieldsets = UserAdmin.fieldsets + (
+        (('Información personal'), {'fields': ('fecha_nacimiento',)}),
+    )
+
+# Registrar MyUsuario con MyUsuarioAdmin
+admin.site.register(MyUsuario, MyUsuarioAdmin)
+
 
 
 

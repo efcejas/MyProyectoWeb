@@ -1,26 +1,34 @@
+# Importaciones de Django
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from . import views
-from .views import CustomPasswordChangeView, PreinformeView
+from django.contrib.auth.views import (
+    LogoutView, 
+    PasswordChangeDoneView, 
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView, 
+    PasswordResetCompleteView
+)
 
+# Importaciones locales
+from . import views
+from .views import CustomPasswordChangeView
+
+# Definición de las rutas
 urlpatterns = [
+    # Ruta de inicio
     path('', views.inicio, name='inicio'),
-    path('admin_panel/', views.admin_panel, name='admin_panel'),
-    path('sedes/', views.sedes, name='sedes'),
-    path('agregarsede/', views.agregarsede, name='agregarsede'),
-    path('agregar_residente/', views.agregar_residente, name='agregar_residente'),
-    path('residentes/', views.residentes, name='residentes'),
-    path('supervision_residentes/', views.supervision_residentes,
-         name='supervision_residentes'),  # nuevas rutas de autenticación
-    # abajo están las rutas de autenticación
+
+    # Rutas de autenticación
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('password_change/', CustomPasswordChangeView.as_view(),
-         name='password_change'),
+
+    # Rutas para cambio de contraseña
+    path('password_change/', CustomPasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', PasswordChangeDoneView.as_view(
         template_name="registration/cambiar_contraseña_confir.html"), name='password_change_done'),
+
+    # Rutas para restablecimiento de contraseña
     path('password_reset/', PasswordResetView.as_view(
          template_name='registration/restablecer_contraseña.html',
          email_template_name='registration/restablecer_contraseña_email.html',
@@ -30,10 +38,12 @@ urlpatterns = [
          ), name='password_reset'),
     path('password_reset/done/', PasswordResetDoneView.as_view(
         template_name="registration/restablecer_contraseña_confir.html"), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='registration/confirmar_restablecimiento_contraseña.html',
-         success_url='/password_reset_complete/',), name='password_reset_confirm'),
+    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
+        template_name='registration/confirmar_restablecimiento_contraseña.html',
+        success_url='/password_reset_complete/',), name='password_reset_confirm'),
     path('password_reset_complete/', PasswordResetCompleteView.as_view(
         template_name="registration/restablecimiento_contraseña_completado.html"), name='password_reset_complete'),
-    # abajo están las rutas de las actividades de los residentes
-    path('preinforme/', PreinformeView.as_view(), name='preinforme'),
+
+    # Rutas de las actividades de los residentes
+    # (añade aquí las rutas correspondientes)
 ]
