@@ -11,6 +11,14 @@ from .models import MyUsuario
 
 # Acá van los formularios de mis usuarios
 
+class MyUsuarioForm(UserCreationForm):
+    fecha_nacimiento = forms.DateField(required=False)
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = MyUsuario
+        fields = ['username', 'first_name', 'last_name' ,'password1', 'password2', 'email', 'fecha_nacimiento']
+
 # Acá van los formularios de autenticación
 
 class CustomPasswordChangeForm(PasswordChangeForm):
