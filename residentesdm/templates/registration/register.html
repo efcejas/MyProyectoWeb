@@ -3,12 +3,63 @@
 {% block title %}Registro{% endblock %}
 
 {% block content %}
-<div class="container mb-3 mt-3">
-    <h2>Registro</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
+<div class="container mt-4 mb-4">
+    <div class="card mx-auto col-lg-6 col-md-12">
+        <div class="card-body">
+            <h2 class="text-center mb-4" style="font-size: x-large; line-height: 1.2;">Registro</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        {% if field.name == 'fecha_nacimiento' %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <input type="date" class="form-control datepicker" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
+                        {% elif field.name == 'es_residente' %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="{{ field.html_name }}" id="{{ field.id_for_label }}">
+                                <label class="form-check-label" for="{{ field.id_for_label }}">
+                                    {{ field.label }} (Selecciona si eres residente)
+                                </label>
+                            </div>
+                        {% elif field.name not in residente_fields %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div id="campos_residente" style="display: none;">
+                    <!-- Agrega aquí los campos adicionales para residentes -->
+                    <!-- Ejemplo: -->
+                    <label for="dni" class="mt-2">DNI</label>
+                    <input type="text" class="form-control mb-2" name="dni">
+
+                    <label for="matricula" class="mt-2">Matrícula</label>
+                    <input type="text" class="form-control mb-2" name="matricula">
+
+                    <label for="fecha_ingreso_residencia" class="mt-2">Fecha de Ingreso</label>
+                    <input type="date" class="form-control mb-2" name="fecha_ingreso_residencia">
+
+                    <label for="pais_nacionalidad" class="mt-2">País de Nacionalidad</label>
+                    <input type="text" class="form-control mb-2" name="pais_nacionalidad">
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtén el checkbox y el div de campos de residentes
+        var esResidenteCheckbox = document.querySelector('input[name="es_residente"]');
+        var camposResidenteDiv = document.getElementById('campos_residente');
+
+        // Agrega un evento de cambio al checkbox
+        esResidenteCheckbox.addEventListener('change', function () {
+            // Si el checkbox está marcado, muestra los campos de residentes; de lo contrario, ocúltalos
+            camposResidenteDiv.style.display = esResidenteCheckbox.checked ? 'block' : 'none';
+        });
+    });
+</script>
+
 {% endblock %}

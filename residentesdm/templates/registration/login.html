@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
+<main class="container mt-3">
 <div class="d-flex justify-content-center align-items-start mt-3" style="height: 100vh;">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
@@ -40,7 +41,11 @@
                 <p>Si no estás registrado, <a href="{% url 'residentesdm:register' %}">haz clic aquí</a> para
                     registrarte.</p>
             </div>
+            <div class="text-center">
+                <p>Para volver a la página de incio, <a href="{% url 'residentesdm:inicio' %}">haz clic aquí</a>.</p>
+            </div>
         </div>
     </div>
 </div>
+</main>
 {% endblock %}

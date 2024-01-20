@@ -4,34 +4,29 @@
 {% block content %}
 <div class="d-flex flex-column flex-md-row justify-content-between m-0">
     <div class="d-flex justify-content-between align-items-center">
+        {% if user.is_authenticated %}
         <div class="me-2">
-            {% if user.is_authenticated %}
             <p class="mb-0">Bienvenido, <strong>{{ user.first_name }}</strong>!</p>
-            {% else %}
-            <p class="mb-0">No has iniciado sesión.</p>
-            {% endif %}
         </div>
         <div>
             <p class="mb-0"><a href="{% url 'residentesdm:password_change' %}">Cambiar contraseña</a></p>
         </div>
+        {% endif %}
     </div>
     <nav class="d-flex justify-content-between align-items-center">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:inicio' %}">Inicio</a>
             </li>
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="#">Residentes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Tutores</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Administración</a>
-            </li> -->
+            {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'residentesdm:logout' %}">Cerrar sesión</a>
             </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'residentesdm:login' %}">Iniciar sesión</a>
+            </li>
+            {% endif %}
         </ul>
     </nav>
 </div>
