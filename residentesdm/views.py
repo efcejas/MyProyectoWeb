@@ -30,7 +30,7 @@ def register(request):
             user = form.save()
 
             # Verifica si se marcó como residente
-            if request.POST.get('es_residente'):
+            if form.cleaned_data.get('es_residente'):
                 dni = form.cleaned_data.get('dni')
                 matricula = form.cleaned_data.get('matricula')
                 fecha_ingreso_residencia = form.cleaned_data.get('fecha_ingreso_residencia')

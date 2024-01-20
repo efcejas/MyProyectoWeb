@@ -6,6 +6,17 @@
 <div class="d-flex justify-content-center align-items-start mt-3" style="height: 100vh;">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
+
+            {% if messages %}
+            <div class="alert alert-success">
+                <ul class="mb-0">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
             {% if form.errors %}
                 <p class="text-center">Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
             {% endif %}
