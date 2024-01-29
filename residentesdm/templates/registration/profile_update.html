@@ -1,0 +1,15 @@
+{% extends "plantillas/base.html" %}
+{% load static %}
+{% block title %}Perfil{% endblock %}
+{% block content %}
+<main class="container-lg">
+    <h2>Editar perfil de usuario</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Formulario para MyUsuario -->
+        {{ form2.as_p }}  <!-- Formulario para Residente -->
+        <button type="submit">Actualizar</button>
+    </form>
+    <a href="{% url 'residentesdm:perfil' %}">Cancel</a>
+</main>
+{% endblock %}

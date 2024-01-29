@@ -2,183 +2,103 @@
 {% load static %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
-<div class="d-flex flex-column flex-md-row justify-content-between m-0">
-    <div class="d-flex justify-content-between align-items-center">
-        {% if user.is_authenticated %}
-        <div class="me-2">
-            <p class="mb-0">Bienvenido, <strong>{{ user.first_name }}</strong>!</p>
-        </div>
-        <div>
-            <p class="mb-0"><a href="{% url 'residentesdm:password_change' %}">Cambiar contraseña</a></p>
-        </div>
-        {% endif %}
-    </div>
-    <nav class="d-flex justify-content-between align-items-center">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:inicio' %}">Inicio</a>
-            </li>
+<div id="barraSubHeader" class="container-fluid" style="background-color: #F2F2F2;">
+    <div class="row">
+        <div class="col-sm-4 mt-sm-0 mt-2 text-sm-start text-center d-flex align-items-center">
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'residentesdm:logout' %}">Cerrar sesión</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'residentesdm:login' %}">Iniciar sesión</a>
-            </li>
+            <p class="col m-0 p-2">
+                Bienvenido, <strong>{{ user.first_name }}</strong>!<br><a href="{% url 'residentesdm:perfil' %}"
+                    style="font-size: small;">Mi Perfil</a>
+            </p>
             {% endif %}
-        </ul>
-    </nav>
+        </div>
+        <div class="col-sm d-flex align-items-center justify-content-sm-end justify-content-center">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:inicio' %}">Inicio</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'residentesdm:logout' %}">Cerrar sesión</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'residentesdm:login' %}">Iniciar sesión</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </div>
-<main>
-    <div class="card mt-2">
-        <div class="card-body text-justify">
-            <h2 class="text-center">¡Bienvenido!</h2>
-            <p class="card-text">Esta es la página de la residencia médica en diagnóstico por imágenes de Diagnóstico
-                Médico. Aquí encontrarás información sobre nuestra institución, así como recursos útiles para nuestros
-                residentes y para el público interesado.</p>
+
+<main id="main-content" class="container-lg mt-3">
+    <div class="container-xxl" style="text-align: justify;">
+        <div class="row">
+            <div class="col-lg-6 mt-lg-0 mt-3 d-flex flex-column justify-content-start">
+                <div>
+                    <h2 class="text-center">¡Bienvenido!</h2>
+                    <p> Explora nuestra página de la residencia médica en diagnóstico por imágenes de Diagnóstico
+                        Médico. Aquí hallarás información sobre nuestra institución y recursos útiles tanto para
+                        nuestros residentes como para el público interesado.</p>
+                </div>
+                <div class="fondo-personalizado">
+                </div>
+                <div class="elSlogan mt-3">
+                    <p class="mb-0 text-end"
+                        style="font-weight: bold; font-size: 1.2em; font-family: korolev; color:#3D5EA8; line-height: 1em;">
+                        No solo formamos especialistas</p>
+                    <p class="mb-0 text-end"
+                        style="font-weight: bold; font-family: korolev; font-size: 1em; color: #66C2C4; line-height: 1em;">
+                        Creamos profesionales en</p>
+                    <p class="mb-0 text-end"
+                        style="font-family: korolev; font-size: 0.8em; color: #66C2C4; line-height: 1.2;">
+                        Diagnóstico
+                        por Imágenes</p>
+                </div>
+            </div>
+            <div class="col mt-lg-0 mt-3 d-flex flex-column justify-content-center">
+                <h2 class="text-start" style="font-size: larger; color: black;">Acerca de nosotros</h2>
+                <p id="about-us">Con varios años de experiencia, nos destacamos en la formación de especialistas en
+                    diagnóstico por imágenes. Hemos sido pioneros en la educación médica, forjando la excelencia en la
+                    formación de médicos reconocidos internacionalmente.</p>
+                <p>Contamos con sedes equipadas con tecnología de vanguardia y profesionales altamente calificados.
+                    Nuestra expansión nos ha permitido llegar a más médicos, ofreciéndoles una formación de calidad.</p>
+                <p>En cada sede, proporcionamos a nuestros residentes una experiencia de aprendizaje desafiante, con el
+                    objetivo de prepararlos para liderar en sus campos y mejorar la salud de sus comunidades.</p>
+                <p>Si buscas unirte a nosotros, explora nuestras ofertas para descubrir cómo podemos ayudarte a alcanzar
+                    tus metas profesionales. Estamos comprometidos a formar la próxima generación de especialistas y
+                    esperamos contribuir a tu formación.</p>
+            </div>
+        </div>
+    </div>
+    <div id="sedes" class="container-fluid" style="text-align: justify;">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-start" style="font-size: larger; color: black;">Nuestras sedes</h2>
+                <p>
+                    Contamos con varios centros de formación, equipados con tecnología de vanguardia y dirigidos por
+                    profesionales altamente cualificados. En cada una de las sedes, los residentes cuentan con un
+                    entorno
+                    enriquecedor que potencia su desarrollo como especialistas en diagnóstico por imágenes. <strong>
+                        ¡Descúbrelo!</strong>
+                </p>
+            </div>
+            <div class="container col-md-6 text-center">
+                <ul class="list-unstyled row row-cols-1 row-cols-md-2 gy-3">
+                    <li class="col">
+                        <p>Sede Central <br> Dirección: Juín 1023</p>
+                    </li>
+                    <li class="col">
+                        <p>Sede Belgrano <br> Dirección: Av. Cabildo 488</p>
+                    </li>
+                    <li class="col">
+                        <p>Sede - Trinidad Palermo <br> Dirección: Av. Cerviño 1425</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </main>
-
-<div class="accordion mt-3" id="accordionExample1">
-    <div class="accordion-item mb-3">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed boton-personalizado" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Sobre nosotros
-            </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample2"
-            style="background-color: #f7f7f7;">
-            <div class="row">
-                <div>
-                    <div class="accordion-body img-container fondo-personalizado ms-auto">
-                        <div class="col-lg-6 order-lg-2">
-                            <!-- revisar esto -->
-                            <p id="about-us" class="card-text text-justify">Nuestra institución fue constituida hace
-                                varios
-                                años con el objetivo de formar especialistas en diagnóstico por imágenes. Desde
-                                entonces,
-                                hemos estado a la vanguardia de la educación médica, ofreciendo a nuestros residentes
-                                una
-                                formación integral y de alta calidad.</p>
-
-                            <p class="card-text text-justify">A lo largo de nuestra trayectoria, hemos tenido el honor
-                                de
-                                formar a muchos médicos que han logrado renombre y reconocimiento internacional. Nuestro
-                                compromiso con la excelencia en la formación médica nos ha permitido mantener un alto
-                                nivel
-                                de calidad y prestigio.</p>
-
-                            <p class="card-text text-justify">Nuestra institución cuenta con varias sedes, cada una
-                                equipada
-                                con tecnología de vanguardia y un equipo de profesionales altamente calificados. Nuestra
-                                política de expansión nos ha permitido llegar a más médicos y ofrecerles una formación
-                                de
-                                calidad.</p>
-
-                            <p class="card-text text-justify">En cada una de nuestras sedes, ofrecemos a nuestros
-                                residentes
-                                una experiencia de aprendizaje enriquecedora y desafiante. Nuestro objetivo es preparar
-                                a
-                                nuestros residentes para que sean líderes en sus respectivos campos y contribuyan a
-                                mejorar
-                                la salud de las comunidades a las que sirven.</p>
-
-                            <p class="card-text text-justify">Si estás interesado en unirte a nuestra residencia, te
-                                invitamos a explorar nuestras ofertas y a descubrir cómo podemos ayudarte a alcanzar tus
-                                metas profesionales. Estamos comprometidos a formar la próxima generación especialistas
-                                y
-                                esperamos tener la oportunidad de contribuir a tu formación.</p>
-
-                            <p class="mb-0 mt-5 text-end"
-                                style="font-weight: bold; font-size: 1.5em; font-family: korolev; color:#3D5EA8; line-height: 1em;">
-                                No solo formamos especialistas</p>
-                            <p class="mb-0 text-end"
-                                style="font-weight: bold; font-family: korolev; font-size: 1.38em; color: #66C2C4; line-height: 1em;">
-                                Creamos profesionales en</p>
-                            <p class="mb-0 text-end"
-                                style="font-family: korolev; font-size: 1em; color: #66C2C4; line-height: 1.2;">
-                                Diagnóstico
-                                por Imágenes</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="accordion mt-3" id="accordionExample2">
-<div class="accordion-item mb-3">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed boton-personalizado" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Nuestras sedes
-            </button>
-        </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample2"
-            style="background-color: #f7f7f7;">
-            <div class="accordion-body">
-                <p class="card-text">Nuestro programa ofrece la oportunidad de rotar por distintos servicios en
-                    varias sedes,
-                    donde nuestros residentes pueden adquirir experiencia y conocimientos prácticos. Esta es una
-                    forma de
-                    enriquecer su formación y prepararse para el futuro profesional.</p>
-                <div class="row">
-                    {% for sede in sedes %}
-                    <div class="col-md-4">
-                        <div class="card mb-3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title titulo-personalizado">{{ sede.nombre }}</h5>
-                                <p class="card-text m-0">Referente: Dr/a. {{ sede.referente }}</p>
-                                <p class="card-text m-0">Dirección: {{ sede.direccion }}</p>
-                                <p class="card-text">Tel: {{ sede.telefono }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="accordion mt-3" id="accordionExample3">
-    <div class="accordion-item mb-3">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed boton-personalizado" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Nuestros residentes
-            </button>
-        </h2>
-        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample2"
-            style="background-color: #f7f7f7;">
-            <div class="accordion-body">
-                <p class="text-start">El programa de residencia en diagnóstico por imágenes de Diagnóstico Médico
-                    cuenta con un equipo de {{ todos_los_residentes|length }} residentes altamente calificados que se encuentran en
-                    diferentes años de formación. A continuación se muestra la lista completa de residentes:</p>
-                <div class="row">
-                    {% regroup todos_los_residentes by grupo as residentes_por_grupo %}
-                    {% for grupo in residentes_por_grupo %}
-                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title titulo-personalizado">{{ grupo.grouper }}</h4>
-                                <ul>
-                                    {% for residente in grupo.list %}
-                                    <li>{{ residente.nombre.title }} {{ residente.apellido.title }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div> 
-        </div>
-    </div>
-</div>
-
 <script>
     // Obtén el año actu
     var currentYear = new Date().getFullYear();
@@ -193,7 +113,7 @@
     var paragraph = document.getElementById('about-us');
 
     // Actualiza el texto del párrafo
-    paragraph.textContent = `Nuestra institución fue constituida hace ${years} años con el objetivo de formar especialistas en diagnóstico por imágenes. Desde entonces, hemos estado a la vanguardia de la educación médica, ofreciendo a nuestros residentes una formación integral y de alta calidad.`;
+    paragraph.textContent = `Con más de ${years} años de experiencia, nos destacamos en la formación de especialistas en diagnóstico por imágenes. Hemos sido pioneros en la educación médica, forjando la excelencia en la formación de médicos reconocidos internacionalmente.`;
 </script>
 
 {% endblock %}

@@ -1,5 +1,5 @@
-
 /* estilos de la cabecera */
+
 header {
     background-color: #3D5DAA;
     padding: 12px;
@@ -8,114 +8,118 @@ header {
 header h1 {
     color: #fff;
     font-family: nimbus-sans, sans-serif;
-    font-weight: 700;
-    margin: 0;
     font-size: 2.5vw;
-    /* Ajusta este valor según tus necesidades */
+    font-weight: 900;
+    margin: 0;
 }
 
 .logodm img {
-    width: 15vw;
-    /* Ajusta este valor según tus necesidades */
     max-width: 200px;
     min-width: 90px;
+    width: 15vw;
 }
 
 main h2 {
     color: #3D5DAA;
-    font-family: nimbus-sans, sans-serif;
-    font-weight: 700;
-    font-style: bold;
-}
-
-.fondo-personalizado {
-    background-image: url('/static/sedejunindos.jpg'); /* Cambia esto a la ruta de tu imagen */
-    background-size: cover; /* Esto hará que la imagen cubra todo el contenedor */
-    background-position: center; /* Esto centrará la imagen en el contenedor */
+    font-size: 1.5em;
+    font-family: "source-sans-3-variable", sans-serif;
+    font-weight: bold;
 }
 
 p {
-    font-family: mr-eaves-sans, sans-serif;
+    font-family: "source-sans-3", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* .accordion-button::after {
+    background-image: none !important;
+    color: white;
+    content: '▼';
+}
+
+.accordion-button.collapsed::after {
+    content: '►';
 }
 
 .accordion-header .boton-personalizado {
-    text-decoration: none;
-    padding: 10px;
-    font-family: nimbus-sans, sans-serif;
-    font-weight: 600;
-    font-size: 1.5vw;
-    color: #ffffff;
     background-color: #5989F7;
     border-radius: 6px;
-}
+    color: #ffffff;
+    font-family: nimbus-sans, sans-serif;
+    font-size: 1.5vw;
+    font-weight: 600;
+    padding: 10px;
+    text-decoration: none;
+} */
 
 .card .card-body .card-title.titulo-personalizado {
+    color: #5989F7;
     font-family: nimbus-sans, sans-serif;
     font-weight: 700;
-    color: #5989F7;
-}
-
-.accordion-button::after {
-    /* Override Bootstrap's default accordion icon */
-    background-image: none !important;
-    content: '▼'; /* Aquí puedes poner cualquier símbolo que quieras usar como flecha */
-    color: white; /* Aquí puedes poner el color que quieras para la flecha */
-}
-.accordion-button.collapsed::after {
-    content: '►'; /* Aquí puedes poner cualquier símbolo que quieras usar como flecha cuando el acordeón esté colapsado */
 }
 
 .card .card-body ul {
+    color: #3D5DAA;
     font-family: mr-eaves-sans, sans-serif;
     font-size: medium;
-    padding: 5px;
-    color: #3D5DAA;
     list-style: none;
+    padding: 5px;
     padding-left: 25px;
+}
+
+.elSlogan {
+    font-family: "korolev", sans-serif;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.fondo-personalizado {
+    background-image: url('/static/sedejunin.jpg');
+    background-position: center 54%;
+    background-size: cover;
+    height: 155px;
 }
 
 @media (max-width: 768px) {
     header h1 {
         font-size: 3.5vw;
-        text-align: center;
         margin-top: 5px;
+        text-align: center;
     }
 
     .logodm img {
         width: 80px;
     }
-    
 }
 
 @media (min-width: 769px) {
     header h1 {
-        text-align: left;
         margin-left: 10px;
+        text-align: left;
     }
 }
-/* fin de los estilos de la cebecera */
-
 
 /* estilos de sedes.html */
 
 .titulosede {
     color: #3D5DAA;
     font-family: nimbus-sans, sans-serif;
-    font-weight: 700;
     font-style: bold;
-}
-
-.lassedes .elformulario {
-    font-size: 1.5vw;
-    font-family: mr-eaves-sans, sans-serif;
+    font-weight: 700;
 }
 
 .elformulario {
-    padding: 12px;
     font-family: mr-eaves-sans, sans-serif;
+    padding: 12px;
 }
 
-/* estilos de sedes.html */
+.lassedes .elformulario {
+    font-family: mr-eaves-sans, sans-serif;
+    font-size: 1.5vw;
+}
 
+/* fin de los estilos de sedes.html */
 
 

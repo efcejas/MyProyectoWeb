@@ -11,34 +11,40 @@
                 {% csrf_token %}
                 {% for field in form %}
                     <div class="mb-3">
-                        {% if field.name == 'fecha_nacimiento' %}
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            <input type="date" class="form-control datepicker" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
-                        {% elif field.name == 'es_residente' %}
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="{{ field.html_name }}" id="{{ field.id_for_label }}">
-                                <label class="form-check-label" for="{{ field.id_for_label }}">
-                                    {{ field.label }} (Selecciona si eres residente)
-                                </label>
-                            </div>
-                        {% elif field.name not in residente_fields %}
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
+                        {% if field.name not in residente_fields and field.name not in cuerpo_admin_fields %}
+                            {% if field.field.widget.input_type == 'checkbox' %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="{{ field.html_name }}" id="{{ field.id_for_label }}">
+                                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                    </label>
+                                </div>
+                            {% else %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
+                            {% endif %}
                         {% endif %}
                     </div>
                 {% endfor %}
                 <div id="campos_residente" style="display: none;">
-                    <label for="dni" class="mt-2">DNI</label>
-                    <input type="text" class="form-control mb-2" name="dni">
-
-                    <label for="matricula" class="mt-2">Matrícula</label>
-                    <input type="text" class="form-control mb-2" name="matricula">
-
-                    <label for="fecha_ingreso_residencia" class="mt-2">Fecha de Ingreso</label>
-                    <input type="date" class="form-control mb-2" name="fecha_ingreso_residencia">
-
-                    <label for="pais_nacionalidad" class="mt-2">País de Nacionalidad</label>
-                    <input type="text" class="form-control mb-2" name="pais_nacionalidad">
+                    {% for field in form %}
+                        {% if field.name in residente_fields %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div id="campos_cuerpo_admin" style="display: none;">
+                    {% for field in form %}
+                        {% if field.name in cuerpo_admin_fields %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.html_name }}" {% if field.field.required %}required{% endif %}>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <button type="submit" class="btn btn-primary">Registrar</button>
             </form>
@@ -48,16 +54,38 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Obtén el checkbox y el div de campos de residentes
+        // Obtén los checkboxes y los divs de campos
         var esResidenteCheckbox = document.querySelector('input[name="es_residente"]');
+        var esCuerpoAdminCheckbox = document.querySelector('input[name="es_cuerpo_admin"]');
         var camposResidenteDiv = document.getElementById('campos_residente');
+        var camposCuerpoAdminDiv = document.getElementById('campos_cuerpo_admin');
 
-        // Agrega un evento de cambio al checkbox
+        // Inicialmente oculta los campos
+        camposResidenteDiv.style.display = 'none';
+        camposCuerpoAdminDiv.style.display = 'none';
+
+        // Agrega un evento de cambio a los checkboxes
         esResidenteCheckbox.addEventListener('change', function () {
             // Si el checkbox está marcado, muestra los campos de residentes; de lo contrario, ocúltalos
             camposResidenteDiv.style.display = esResidenteCheckbox.checked ? 'block' : 'none';
+
+            // Si el checkbox está marcado, desmarca el otro checkbox
+            if (esResidenteCheckbox.checked) {
+                esCuerpoAdminCheckbox.checked = false;
+                camposCuerpoAdminDiv.style.display = 'none';
+            }
+        });
+
+        esCuerpoAdminCheckbox.addEventListener('change', function () {
+            // Si el checkbox está marcado, muestra los campos del cuerpo administrativo; de lo contrario, ocúltalos
+            camposCuerpoAdminDiv.style.display = esCuerpoAdminCheckbox.checked ? 'block' : 'none';
+
+            // Si el checkbox está marcado, desmarca el otro checkbox
+            if (esCuerpoAdminCheckbox.checked) {
+                esResidenteCheckbox.checked = false;
+                camposResidenteDiv.style.display = 'none';
+            }
         });
     });
 </script>
-
 {% endblock %}

@@ -11,7 +11,7 @@ from django.contrib.auth.views import (
 
 # Importaciones locales
 from . import views
-from .views import CustomPasswordChangeView, register
+from .views import CustomPasswordChangeView, register, UserProfileView, UserProfileUpdateView
 
 urlpatterns = [
     # Ruta de inicio
@@ -24,6 +24,12 @@ urlpatterns = [
         template_name='registration/login.html'
     ), name='login'), # No se necesita una vista personalizada para el login
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # Rutas de los perfiles de usuario
+
+    path('perfil/', UserProfileView.as_view(), name='perfil'),
+    path('perfil/actualizar/', UserProfileUpdateView.as_view(),
+         name='perfil_actualizar'),
 
     # Rutas para cambio de contraseña
     path('password_change/', CustomPasswordChangeView.as_view(),

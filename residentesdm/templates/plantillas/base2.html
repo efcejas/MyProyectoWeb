@@ -33,7 +33,26 @@
             <h1>Residencias Médicas<br>Diagnóstico Por Imágenes</h1>
         </div>
     </header>
-    
+    <div id="barraSubHeader" class="container-fluid" style="background-color: #F2F2F2;">
+        <div class="row">
+            <div class="col-sm d-flex align-items-center justify-content-sm-end justify-content-center">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'residentesdm:inicio' %}">Inicio</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'residentesdm:logout' %}">Cerrar sesión</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'residentesdm:login' %}">Iniciar sesión</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
     <main style="min-height: calc(100vh - 60px);">
         {% block content %}
         {% endblock %}
